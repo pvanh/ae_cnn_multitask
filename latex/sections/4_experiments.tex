@@ -1,0 +1,69 @@
+\section{Experiments}
+\label{sec:experiments}
+\subsection {Datasets}
+To verify the model in terms of performance and the ability to learn with limited data, we used the datasets as in \cite{phan2017convolutional} to conduct experiments. Each dataset contains all source files written in C/C++ for solving a problem on CodeChef\footnote{\url{https://www.codechef.com/problems/<problem-name>}}, a contest site to learn programming languages. The collected problems are 1) SUMTRIAN for computing the sum of the numbers on the longest path in a triangular matrix, 2) FLOW016 for finding the greatest common divisor (GCD) and the least common multiple (LCM) of two integer numbers, 3) MNMX for finding the minimum cost to convert the array into a single element by several operations, 4) SUBINC for counting the non-decreasing subarrays in an array.
+
+According to the execution result, a program is assigned to one of categories including \textit{0) clean code} if the output meets all the requirements, and defective code that result in \textit{1) time limit exceeded} - the running time is greater than the time limit, \textit{2) wrong answer} - the output does not match with the expected, \textit{3) runtime error} - the execution process was interrupted, and \textit{4) syntax error} - the compilation was failed.         
+
+Table~\ref{table:datastatistics} shows data statistics on the experimental datasets. As can be seen, all the datasets are unbalanced in which the instance numbers of classes 0 and 1 dominate those the other classes. We used the same data split as in \cite{phan2017convolutional} with the training, validation and testing ratio of 3:1:1.
+\begin{table}[]
+\centering
+\setlength{\tabcolsep}{4pt}
+\caption{The statistics on the number of samples for the datasets}
+\label{table:datastatistics}
+\begin{tabular}{lrrrrrr}
+\hline
+Dataset & Total & Class 0 & Class 1 & Class 2 & Class 3 & Class 4 \\ \hline
+FLOW016 &10,648 &3,472 &4,165 &231 &2,368 &412 \\
+MNMX    &8,745 &5,157 &3,073 &189 &113 &213 \\
+SUBINC  &6,484&3,263&2,685&206&98&232\\
+SUMTRIAN&21,187&9,132&6,948&419&2,701&1,987\\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Baselines and training scenarios}
+\textbf{Baselines}. We compare our proposed method with a convolutional neural network (CNN) (as the classification branch without the autoencoder), and the CNN with transfer learning. As confirmed in many studies \cite{phan2017convolutional,phan2018dgcnn, phan2017conv_asm}, assembly code-based methods reach much higher performance than those based on software metrics and ASTs on these datasets. In addition, transfer learning has proved as a good solution for limited data in various areas such as image, speech, and language processing \cite{weiss2016survey}. Thus, two baselines including the CNN trained from scratch and the CNN with transfer learning are selected to verify the proposed model performance.
+
+\textbf{Training scenarios}. To assess the influence of data amount on the learning ability, we trained the models with 100\%, 75\%, 50\%, and 25\% of the training set and ran prediction for the whole validation and test sets.
+
+To judge the contribution of the autoencoder, the proposed model is trained with three scenarios as follows.
+\begin{itemize}
+    \item AE\-CNN: We first train the autoencoder and then remain the weights for the part 1 of convolutions to train CNN independently. This can be considered as a type of self-transfer learning because we initialize the weights using the same data but without target label information.
+    \item CNN\-Mul: the autoencoder and CNN are trained simultaneously from scratch.
+    \item AE\-CNN\-Mul: The autoencoder is pretrained and then we continue training the whole model. 
+\end{itemize}
+
+For transfer learning, we merge all data of the other problems to pretrain the CNN and then reuse the network weights as the initialization to build the classifier for the current problem.  
+\subsection {Evaluation Measures}
+We used three common used measures including accuracy, F1 and AUC (the area under the receiver operating characteristic \- ROC) to evaluate model performance. The accuracy, and F1 can be computed from the confusion matrix constructed from the prediction results. For binary classification where a sample belongs one of two categories +1 (positive) and -1 (negative), the confusion matrix is as follows.
+\begin{table}[]
+\begin{center}
+\caption{The confusion matrix}
+\begin{tabular}{llcc}
+\hline
+ & & \multicolumn{2}{c}{Predicted} \\ \cline{3-4} 
+ &  & +1 (Positive) & -1 (Negative) \\ \hline
+\multirow{2}{*}{Actual} & \multicolumn{1}{c}{+1} & TP & FN  \\
+                        & \multicolumn{1}{c}{-1} & FP & TN  \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Classification accuracy:
+\begin{equation}
+    Accuracy = \frac{TP + TN}{TP + TN + FP + FN}
+\end{equation}
+The F1 measure:
+\begin{equation}
+    F1 = \frac{2* Recall * Precision}{Recall + Precision}
+\end{equation}
+where $Precision = \frac{TP}{TP + FP}$ and $Recall = \frac{TP}{TP + FN}$
+
+AUC is an essential measure to evaluate classifiers, especially in cases of unbalance data. AUC is the area under the ROC curve that is generated by plotting all points of (true positive rate $TPR = \frac{TP}{P}$ , the false positive rate $FPR = \frac{FP}{N}$) at different discrimination thresholds. The AUC shows the ability to distinguish between classes.
+
+The above measures were presented for binary classifiers. To extend to multi-class problems, the measures are computed by several ways:
+\begin{itemize}
+    \item micro. computing the TPR, and FPR, FP and TP globally.
+    \item macro. computing the metrics for each class and take the unweighted mean.
+    \item weighted. Similar to the macro, but taking the weighted mean according to the number of instances for each class. 
+\end{itemize}{}

@@ -1,0 +1,31 @@
+1. Introduction
+Giới thiệu bài toán và ý nghĩa của nó
+
+Giới thiệu các phương pháp tiếp cận
+
+Các vấn đề thường gặp: Thiếu dữ liệu, dữ liệu mất cân bằng
+
+Các phương pháp giải quyết thiếu cân bằng và thiếu hụt dữ liệu
+
+Phương pháp của mình
+
+Các đóng góp chính:
++ Building a mutitask-network to deal with data shortage in faulty code detection.
++ Formulate a semi-supervised method for faulty code detection
++ Thử nghiệm 3 phương pháp huấn luyện mô hình để giải quyết thiếu hụt dữ liệu.
++ Phân tích đánh giá chi tiết lượng dữ liệu học ảnh hưởng đến performance của các mô hình
+2. Related work
++ Các nghiên cứu về faulty code prediction
++ Các nghiên cứu về giải quyết vấn đề thiếu hụt và mất cân bằng dữ liệu
++ Nghiên cứu của mình liên quan và khác các nghiên cứu trên ở chỗ nào (multi-task)
+3. The Proposed Approach
++ Trình bày chi tiết mô hình
+4. Experiments
++ Các baselines
++ 3 phương pháp huấn luyện dữ liệu
++ Các độ đo để đánh giá
+5. Result Analysis and Discussion
++ Kết quả: Acc, F1, AUC, visualize embeddingcủa các phương pháp so với của mình
+PretrainedAE_CNN (PAE_CNN_d) trong đó d là phần trăm dữ liệu dùng để fine tune
+AE pretrained and fine tune whole model (PAE_FNet_d)
+Huấn luyện toàn bộ mô hình với một phần dữ liệu (AE_CNN_d) 

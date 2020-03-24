@@ -1,0 +1,96 @@
+\documentclass[review]{elsarticle}
+
+\usepackage{lineno,hyperref}
+\usepackage{rotating}
+\usepackage{adjustbox}
+\modulolinenumbers[5]
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{subfig}
+\journal{Journal of Information Sciences}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%% Elsevier bibliography styles
+%%%%%%%%%%%%%%%%%%%%%%%
+%% To change the style, put a % in front of the second line of the current style and
+%% remove the % from the second line of the style you would like to use.
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Numbered
+%\bibliographystyle{model1-num-names}
+
+%% Numbered without titles
+%\bibliographystyle{model1a-num-names}
+
+%% Harvard
+%\bibliographystyle{model2-names.bst}\biboptions{authoryear}
+
+%% Vancouver numbered
+%\usepackage{numcompress}\bibliographystyle{model3-num-names}
+
+%% Vancouver name/year
+%\usepackage{numcompress}\bibliographystyle{model4-names}\biboptions{authoryear}
+
+%% APA style
+%\bibliographystyle{model5-names}\biboptions{authoryear}
+
+%% AMA style
+%\usepackage{numcompress}\bibliographystyle{model6-num-names}
+
+%% `Elsevier LaTeX' style
+\bibliographystyle{elsarticle-num}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{frontmatter}
+\title{Semi-supervised Multi-task Learning Using Convolutional AutoEncoder for Faulty Code Detection with Limited Data}
+% \title{Elsevier \LaTeX\ template\tnoteref{mytitlenote}}
+% \tnotetext[mytitlenote]{Fully documented templates are available in the elsarticle package on \href{http://www.ctan.org/tex-archive/macros/latex/contrib/elsarticle}{CTAN}.}
+
+%% Group authors per affiliation:
+\author{Anh Phan Viet \corref{mycorrespondingauthor}}
+\ead{anhpv@lqdtu.edu.vn}
+\author{Khanh Nguyen Duy Tung}
+\author{Lam Bui Thu}
+\address{Le Quy Don Technical University, 236 Hoang Quoc Viet St., Hanoi, Vietnam}
+% \fntext[myfootnote]{Since 1880.}
+
+% %% or include affiliations in footnotes:
+% \author[mymainaddress,mysecondaryaddress]{Elsevier Inc}
+% \ead[url]{www.elsevier.com}
+
+% \author[mysecondaryaddress]{Global Customer Service\corref{mycorrespondingauthor}}
+\cortext[mycorrespondingauthor]{Corresponding author}
+
+% \address[mymainaddress]{1600 John F Kennedy Boulevard, Philadelphia}
+% \address[mysecondaryaddress]{360 Park Avenue South, New York}
+
+\begin{abstract}
+This paper proposes a semi-supervised multitask learning framework to overcome the limited data problem for faulty code prediction. The framework has two parts including 1) a convolutional autoencoder performing the auxiliary task that is learning the latent representations of programs and 2) a sequence-based convolution for the main task of faulty code prediction. The keys to reduce the data requirement and remain the prediction accuracy are 1) latent representations can support to generate good features for the classification task and 2) pretraining the joining part with the unsupervised procedure and then fine-tuning with labeled data instead of training from scratch. To evaluate the benefits of pretraining and latent representations, we tried to feed the model with different amount of labelled data. Our experiments on four real datasets of software fault prediction have shown that pretrained the autoencoder achieves better performance and multitask learning makes the model able to learn with limited labelled data. Specifically, the model was trained with 50\% or 70\% can reach the performance as trained with 100\% of data.     
+\end{abstract}
+
+\begin{keyword}
+Faulty Code Detection \sep Semi-supervised Learning \sep Multi-task Learning \sep Convolutional AutoEncoder 
+\end{keyword}
+
+\end{frontmatter}
+
+\linenumbers
+
+\input{sections/1_introduction}
+\input{sections/2_relatedwork}
+\input{sections/3_proposedapproach}
+\input{sections/4_experiments}
+\input{sections/5_result_and_discussion}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\section*{Acknowledgements}
+This research is funded by the Vietnam National Foundation for Science and Technology Development (NAFOSTED) under grant number 102.05-2018.306.
+\section*{References}
+
+\bibliography{refs}
+
+\end{document}
